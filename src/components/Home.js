@@ -1,17 +1,26 @@
 import React, { Component } from 'react';
-import '../css/App.css';
+import { Grid, Input, Checkbox } from 'semantic-ui-react'
+import '../css/style.css';
 
 class Home extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div className="todoHome">
+          <Grid>
+              <Grid.Column width={16}>
+                  <Input
+                      fluid
+                      placeholder='Add todo...' />
+              </Grid.Column>
+              <Grid.Column width={16}>
+                  <Checkbox label={{ children: 'Todo' }} /> <br/>
+                  <Checkbox label={{ children: 'Todo' }} /> <br/>
+                  <Checkbox label={{ children: 'Todo' }} /> <br/>
+                  <Checkbox label={{ children: 'Todo' }} /> <br/>
+                  <Checkbox label={{ children: 'Todo' }} /> <br/>
+                  <Checkbox label={{ children: 'Todo' }} /> <br/>
+              </Grid.Column>
+          </Grid>
       </div>
     );
   }
