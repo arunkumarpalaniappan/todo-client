@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Layout, Icon , Row, Col} from 'antd';
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import * as quotesActions from '../actions/quotesActions';
 const { Content } = Layout;
 class Home extends Component {
     constructor(props) {
@@ -46,6 +49,9 @@ class Home extends Component {
     updateTodo(event) {
         console.log(event)
     }
+    componentDidMount() {
+        this.props.actions.getQuoteofTheDay()
+    }
     render() {
         const styles = {
             todoDone: {
@@ -59,21 +65,13 @@ class Home extends Component {
                         <Layout style={{ padding: '24px 0', background: '#fff' }}>
                             <Content style={{ padding: '0 24px', minHeight: 500 }}>
                                 <Row>
-                                    <Col span={14}>
-                                        {new Date().greet()} ,
-
-                                    </Col>
-                                    <Col span={8}>
-                                        <Row>
-                                            <Col span={8}>
-                                            </Col>
-                                            <Col span={8}>
-                                            </Col>
-                                            <Col span={8}>
-                                            </Col>
-                                        </Row>
+                                    <Col span={24}>
+                                        <b>{new Date().greet()}</b> ,
+                                        {this.props.quote.success ? this.props.quote.contents.quotes[0].quote+' - ': 'Regardless of how you feel inside, always try to look like a winner. Even if you are behind, a sustained look of control and confidence can give you a mental edge that results in victory. - '} 
+                                        {this.props.quote.success ? this.props.quote.contents.quotes[0].author+'.': 'Arthur Ashe.'}
                                     </Col>
                                 </Row>
+                                
                             </Content>
                         </Layout>
                     </Content>
@@ -83,4 +81,16 @@ class Home extends Component {
     }
 }
 
-export default Home;
+function mapStateToProps(state) {
+    return {
+        quote: state.quote
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(Object.assign({}, quotesActions), dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
