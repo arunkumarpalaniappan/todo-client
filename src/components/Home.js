@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Layout , Row, Col, Input, Checkbox, Icon} from 'antd';
+import { Layout , Row, Col, Input, Checkbox, Icon, Button, Modal } from 'antd';
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as quotesActions from '../actions/quotesActions';
 import * as todosActions from '../actions/todoActions';
 import * as visibilityFilterActions from '../actions/visibilityFilterActions';
 import * as types from '../actions/actionTypes';
+import {Link} from 'react-router-dom';
+import Login from './Login';
+import Signup from './Signup';
 const { Content } = Layout;
 class Home extends Component {
     constructor(props) {
@@ -80,6 +83,14 @@ class Home extends Component {
                             <Content style={{ padding: '0 24px', minHeight: 500 }}>
                                 <Row>
                                     <Col span={24}>
+                                        <div style={{'float':'right'}}>
+                                            <Button><Link to="/login">Login</Link></Button> &nbsp;&nbsp;
+                                            <Button><Link to="/signup">Signup</Link></Button>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col span={24}>
                                         <b>{new Date().greet()}</b> ,
                                         {this.props.quote.success ? this.props.quote.contents.quotes[0].quote+' - ': 'Regardless of how you feel inside, always try to look like a winner. Even if you are behind, a sustained look of control and confidence can give you a mental edge that results in victory. - '} 
                                         {this.props.quote.success ? this.props.quote.contents.quotes[0].author+'.': 'Arthur Ashe.'}
@@ -128,9 +139,9 @@ class Home extends Component {
                                 <Col span={8}>
                                         <br/>
                                         <br/>
-                                        <a href="#" id={types.FILTER_SHOW_ALL} onClick={this.updateFilter}>Show All</a> &nbsp;
-                                        <a href="#" id={types.FILTER_SHOW_COMPLETED} onClick={this.updateFilter}>Show Completed</a> &nbsp;
-                                        <a href="#" id={types.FILTER_SHOW_OPEN} onClick={this.updateFilter}>Show Open</a> &nbsp;
+                                        <a href="#" id={types.FILTER_SHOW_ALL} style={this.props.filter === types.FILTER_SHOW_ALL ? {color:'red'}: {}} onClick={this.updateFilter}>Show All</a> &nbsp;
+                                        <a href="#" id={types.FILTER_SHOW_COMPLETED} style={this.props.filter === types.FILTER_SHOW_COMPLETED ? {color:'red'}: {}} onClick={this.updateFilter}>Show Completed</a> &nbsp;
+                                        <a href="#" id={types.FILTER_SHOW_OPEN} style={this.props.filter === types.FILTER_SHOW_OPEN ? {color:'red'}: {}} onClick={this.updateFilter}>Show Open</a> &nbsp;
                                 </Col>
                                 <Col span={8}></Col>
                                 </Row>
@@ -138,6 +149,8 @@ class Home extends Component {
                         </Layout>
                     </Content>
                 </Layout>
+                <Login />
+               
             </div>
         );
     }
