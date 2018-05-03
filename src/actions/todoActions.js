@@ -21,12 +21,6 @@ export function deleteTodo(id) {
     }
 }
 
-export function visibilityFilter(filter) {
-    return function (dispatch) {
-        dispatch(visibilityFilterUpdate(filter))
-    }
-}
-
 export function createTodoSuccess(todo) {
     return {type: types.CREATE_TODO, id: todo.id, text: todo.text}
 }
@@ -37,8 +31,4 @@ export function updateTodoSuccess(id,completed) {
 
 export function deleteTodoSuccess(id) {
     return {type: types.DELETE_TODO, id}
-}
-
-export function visibilityFilterUpdate(filter) {
-    return {type: types.UPDATE_VISIBILITY_FILTER, filter}
 }

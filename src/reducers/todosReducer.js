@@ -30,11 +30,6 @@ export default function updateTodosReducer(state = initalState.todo, action) {
                 }
             })
             break
-        case types.UPDATE_VISIBILITY_FILTER:
-            return state.map(todo => {
-                    return {...todo,visible:action.filter}
-            })
-            break
         default:
             return state;
     }

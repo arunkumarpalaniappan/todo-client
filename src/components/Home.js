@@ -4,6 +4,8 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as quotesActions from '../actions/quotesActions';
 import * as todosActions from '../actions/todoActions';
+import * as visibilityFilterActions from '../actions/visibilityFilterActions';
+import * as types from '../actions/actionTypes';
 const { Content } = Layout;
 class Home extends Component {
     constructor(props) {
@@ -30,20 +32,46 @@ class Home extends Component {
                 };
                 return greet();
         };
+        this.state = {
+            todos: []
+        }
         this.updateTodo = this.updateTodo.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
+        this.updateFilter = this.updateFilter.bind(this);
     }
     componentDidMount() {
-        //this.props.actions.getQuoteofTheDay()
+        this.props.actions.getQuoteofTheDay()
     }
     updateTodo(e) {
         this.props.actions.updateTodo(e.target.value,e.target.checked);
     }
     deleteTodo(e) {
-        this.props.actions.deleteTodo(parseInt(e.target.getAttribute('id')))
+        this.props.actions.deleteTodo(parseInt(e.target.id));
+    }
+    updateFilter(e) {
+        e.preventDefault();
+        this.props.actions.visibilityFilter(e.target.id);
+    }
+    componentWillReceiveProps(nextState) {
+        let todos = []
+            switch(nextState.filter) {
+                case types.FILTER_SHOW_ALL:
+                    this.setState({todos:nextState.todo})
+                    break;
+                case types.FILTER_SHOW_COMPLETED:
+                     todos = nextState.todo.filter(t => t.completed)
+                    this.setState({todos});
+                    break;
+                case types.FILTER_SHOW_OPEN:
+                    todos = nextState.todo.filter(t => !t.completed)
+                    this.setState({todos});
+                    break;
+                default:
+                    this.setState({todos:nextState.todo})
+                    break;
+            }
     }
     render() {
-        //console.log(this.props.todo)
         return (
             <div className="todoHome">
                 <Layout>
@@ -83,8 +111,8 @@ class Home extends Component {
                                     <Col span={8}>
                                         <br/>
                                         <br/>
-                                        {this.props.todo.length ? (
-                                            this.props.todo.map(todo => {
+                                        {this.state.todos.length ? (
+                                            this.state.todos.map(todo => {
                                                 if(!todo.deleted) {
                                                     return <span key={todo.id}><Checkbox value={todo.id} onChange={this.updateTodo} defaultChecked={todo.completed}>{todo.text}</Checkbox> <Icon style={{cursor: 'pointer'}} type="delete" id={todo.id} onClick={this.deleteTodo} /><br/></span>
                                                 } else {
@@ -94,6 +122,17 @@ class Home extends Component {
                                         ) : (null)}
                                     </Col>
                                     <Col span={8}></Col>
+                                </Row>
+                                <Row>
+                                <Col span={8}></Col>
+                                <Col span={8}>
+                                        <br/>
+                                        <br/>
+                                        <a href="#" id={types.FILTER_SHOW_ALL} onClick={this.updateFilter}>Show All</a> &nbsp;
+                                        <a href="#" id={types.FILTER_SHOW_COMPLETED} onClick={this.updateFilter}>Show Completed</a> &nbsp;
+                                        <a href="#" id={types.FILTER_SHOW_OPEN} onClick={this.updateFilter}>Show Open</a> &nbsp;
+                                </Col>
+                                <Col span={8}></Col>
                                 </Row>
                             </Content>
                         </Layout>
@@ -107,13 +146,14 @@ class Home extends Component {
 function mapStateToProps(state) {
     return {
         quote: state.quote,
-        todo: state.todo
+        todo: state.todo,
+        filter: state.filter
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(Object.assign({}, quotesActions, todosActions), dispatch)
+        actions: bindActionCreators(Object.assign({}, quotesActions, todosActions, visibilityFilterActions), dispatch)
     };
 }
 
