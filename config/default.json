@@ -1,0 +1,12 @@
+{
+    "api": {
+        "ssl": false,
+        "host": "localhost",
+        "port": 8080
+    },
+    "quotes": {
+        "ssl": true,
+        "host": "quotes.rest",
+        "port": 80
+    }
+}
