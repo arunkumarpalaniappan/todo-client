@@ -36,11 +36,17 @@ class Home extends Component {
                 return greet();
         };
         this.state = {
-            todos: []
+            todos: [],
+            loginVisible: false,
+            signupVisible: false
         }
         this.updateTodo = this.updateTodo.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
         this.updateFilter = this.updateFilter.bind(this);
+        this.showLogin = this.showLogin.bind(this);
+        this.showSignup = this.showSignup.bind(this);
+        this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
+        this.handleSignupuccess = this.handleSignupuccess.bind(this);
     }
     componentDidMount() {
         this.props.actions.getQuoteofTheDay()
@@ -74,6 +80,18 @@ class Home extends Component {
                     break;
             }
     }
+    showLogin() {
+        this.setState({loginVisible: !this.state.loginVisible});
+    }
+    showSignup() {
+        this.setState({signupVisible: !this.state.signupVisible});
+    }
+    handleLoginSuccess() {
+        //TO-DO
+    }
+    handleSignupuccess() {
+
+    }
     render() {
         return (
             <div className="todoHome">
@@ -84,8 +102,8 @@ class Home extends Component {
                                 <Row>
                                     <Col span={24}>
                                         <div style={{'float':'right'}}>
-                                            <Button><Link to="/login">Login</Link></Button> &nbsp;&nbsp;
-                                            <Button><Link to="/signup">Signup</Link></Button>
+                                            <Button onClick={this.showLogin}>Login</Button> &nbsp;&nbsp;
+                                            <Button onClick={this.showSignup}>Signup</Button>
                                         </div>
                                     </Col>
                                 </Row>
@@ -149,8 +167,8 @@ class Home extends Component {
                         </Layout>
                     </Content>
                 </Layout>
-                <Login />
-               
+                <Login visible={this.state.loginVisible} onSuccess={this.handleLoginSuccess} onClose={this.showLogin}/>
+                <Signup visible={this.state.signupVisible} onSuccess={this.handleSignupuccess} onClose={this.showSignup}/>
             </div>
         );
     }

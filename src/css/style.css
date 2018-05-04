@@ -1,3 +1,8 @@
 .profile-icon {
     border-radius: 40px;
 }
+.error {
+    color: crimson;
+    font-size: 10px;
+    padding-left: 10px;
+}
