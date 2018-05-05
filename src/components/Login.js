@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Form, Icon, Input } from 'antd';
+import * as userActions from '../actions/userActions';
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 const FormItem = Form.Item;
 
 class Login extends Component {
@@ -13,18 +16,22 @@ class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit() {
-        let userName = document.getElementById("email").value;
-        let password = document.getElementById("password").value;
-        if (userName.trim().length === 0) {
+        const loginParams = {}
+        loginParams.email = document.getElementById("email").value;
+        loginParams.password = document.getElementById("password").value;
+        if (loginParams.email.trim().length === 0) {
             this.setState({ error: 'Email Address is Required' });
-        } else if (password.length === 0) {
+        } else if (loginParams.password.length === 0) {
             this.setState({ error: 'Password is Required' });
-        } else if (userName.indexOf("@") < 1 || userName.lastIndexOf(".") < userName.indexOf("@") + 2 || userName.lastIndexOf(".") + 2 >= userName.length) {
+        } else if (loginParams.email.indexOf("@") < 1 || loginParams.email.lastIndexOf(".") < loginParams.email.indexOf("@") + 2 || loginParams.email.lastIndexOf(".") + 2 >= loginParams.email.length) {
             this.setState({ error: 'Invalid Email Address is Entered' });
         } else {
             this.setState({ error: '', showLoading: true })
-            //TO-DO
+            this.props.actions.login(userActions);
         }
+    }
+    componentWillReceiveProps(nextState) {
+        console.log(nextState)
     }
     render() {
         const { visible, onClose } = this.props;
@@ -55,4 +62,16 @@ class Login extends Component {
     }
 }
 
-export default Login
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(Object.assign({}, userActions), dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
