@@ -27,11 +27,15 @@ class Login extends Component {
             this.setState({ error: 'Invalid Email Address is Entered' });
         } else {
             this.setState({ error: '', showLoading: true })
-            this.props.actions.login(userActions);
+            this.props.actions.login(loginParams);
         }
     }
     componentWillReceiveProps(nextState) {
-        console.log(nextState)
+        const {onClose} = this.props;
+        if(nextState.user.auth) {
+            if(!!!nextState.user.todos)
+                this.props.actions.get(nextState.user.auth);
+        }
     }
     render() {
         const { visible, onClose } = this.props;

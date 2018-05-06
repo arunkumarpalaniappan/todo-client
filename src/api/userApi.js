@@ -3,13 +3,13 @@ import {
 } from '../config';
 const host = `${api.ssl?'https://':'http://'}${api.host}:${api.port}`;
 class user {
-    static login(user) {
+    static login(userParams) {
         return fetch(`${host}/login`, {
                 headers: {
                     'Accept': 'application/json'
                 },
                 method: 'POST',
-                body: user
+                body: JSON.stringify(userParams)
             })
             .then((response) => response.json())
             .then((json) => json)
@@ -21,8 +21,16 @@ class user {
     static create(todo) {
 
     }
-    static get(todo) {
-
+    static get(token) {
+        return fetch(`${host}/todo`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            method: 'GET'
+        })
+        .then((response) => response.json())
+        .then((json) => json)
+        .catch((err) => err);
     }
     static update(todo) {
 
