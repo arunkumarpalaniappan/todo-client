@@ -47,7 +47,6 @@ class Home extends Component {
         this.showSignup = this.showSignup.bind(this);
         this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
         this.handleSignupuccess = this.handleSignupuccess.bind(this);
-        this.hideLogin = this.hideLogin.bind(this);
     }
     componentDidMount() {
         this.props.actions.getQuoteofTheDay()
@@ -82,15 +81,13 @@ class Home extends Component {
             }
     }
     showLogin() {
-        this.setState({loginVisible: true});
-    }
-    hideLogin() {
-        this.setState({loginVisible: false});
+        this.setState({loginVisible: !this.state.loginVisible});
     }
     showSignup() {
         this.setState({signupVisible: !this.state.signupVisible});
     }
     handleLoginSuccess() {
+        this.showLogin();
         //TO-DO
     }
     handleSignupuccess() {
@@ -171,7 +168,7 @@ class Home extends Component {
                         </Layout>
                     </Content>
                 </Layout>
-                <Login visible={this.state.loginVisible} onSuccess={this.handleLoginSuccess} onClose={this.hideLogin}/>
+                <Login visible={this.state.loginVisible} onSuccess={this.handleLoginSuccess} onClose={this.showLogin}/>
                 <Signup visible={this.state.signupVisible} onSuccess={this.handleSignupuccess} onClose={this.showSignup}/>
             </div>
         );
@@ -182,7 +179,8 @@ function mapStateToProps(state) {
     return {
         quote: state.quote,
         todo: state.todo,
-        filter: state.filter
+        filter: state.filter,
+        user: state.user
     };
 }
 

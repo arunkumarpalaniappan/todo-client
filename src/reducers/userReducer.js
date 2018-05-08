@@ -5,8 +5,15 @@ export default function userReducer(state = initialState.user, action) {
         case types.LOGIN_SUCCESS:
             return {
                 ...state,
-                auth: action.token
+                auth: action.token,
+                login: true
             };
+        case types.LOGIN_FAILED:
+            return {
+                ...state,
+                auth: 'failed',
+                login: false
+            }
         case types.GET_TODO:
             return {
                 ...state,
