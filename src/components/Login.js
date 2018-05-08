@@ -35,6 +35,8 @@ class Login extends Component {
         if(nextState.user.auth) {
             if(!!!nextState.user.todos)
                 this.props.actions.get(nextState.user.auth);
+            else
+                onClose();
         }
     }
     render() {

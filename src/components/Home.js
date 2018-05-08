@@ -47,6 +47,7 @@ class Home extends Component {
         this.showSignup = this.showSignup.bind(this);
         this.handleLoginSuccess = this.handleLoginSuccess.bind(this);
         this.handleSignupuccess = this.handleSignupuccess.bind(this);
+        this.hideLogin = this.hideLogin.bind(this);
     }
     componentDidMount() {
         this.props.actions.getQuoteofTheDay()
@@ -81,7 +82,10 @@ class Home extends Component {
             }
     }
     showLogin() {
-        this.setState({loginVisible: !this.state.loginVisible});
+        this.setState({loginVisible: true});
+    }
+    hideLogin() {
+        this.setState({loginVisible: false});
     }
     showSignup() {
         this.setState({signupVisible: !this.state.signupVisible});
@@ -167,7 +171,7 @@ class Home extends Component {
                         </Layout>
                     </Content>
                 </Layout>
-                <Login visible={this.state.loginVisible} onSuccess={this.handleLoginSuccess} onClose={this.showLogin}/>
+                <Login visible={this.state.loginVisible} onSuccess={this.handleLoginSuccess} onClose={this.hideLogin}/>
                 <Signup visible={this.state.signupVisible} onSuccess={this.handleSignupuccess} onClose={this.showSignup}/>
             </div>
         );
