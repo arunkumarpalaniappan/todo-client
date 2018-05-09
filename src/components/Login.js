@@ -31,12 +31,12 @@ class Login extends Component {
         }
     }
     componentWillReceiveProps(nextState) {
-        const {onClose} = this.props;
+        const {onSuccess} = this.props;
         if(nextState.user.auth) {
             if(!!!nextState.user.todos)
                 this.props.actions.get(nextState.user.auth);
             else
-                onClose();
+                onSuccess();
         }
     }
     render() {

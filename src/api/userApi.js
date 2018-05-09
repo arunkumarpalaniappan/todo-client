@@ -16,7 +16,16 @@ class user {
             .catch((err) => err);
     }
     static signup(user) {
-
+        return fetch(`${host}/signup`, {
+            headers: {
+                'Accept': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(user)
+        })
+        .then((response) => response.json())
+        .then((json) => json)
+        .catch((err) => err);
     }
     static create(todo) {
 

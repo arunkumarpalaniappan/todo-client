@@ -9,7 +9,19 @@ export function login(user) {
             })
             .catch(err => {
                 throw(err);
+            });
+    }
+}
+
+export function signup(user) {
+    return function(dispatch) {
+        return userApi.signup(user)
+            .then(response => {
+                dispatch(types.SIGNUP_SUCCESS(response))
             })
+            .catch(err => {
+                throw(err);
+            });
     }
 }
 
@@ -21,12 +33,16 @@ export function get(token) {
         })
         .catch(err => {
             throw(err);
-        })
+        });
     }
 }
 
 export function loginSuccess(token) {
     return {type: types.LOGIN_SUCCESS, token};
+}
+
+export function signupSuccess(response) {
+    return {type: types.SIGNUP_SUCCESS, response};
 }
 
 export function getTodoSuccess(todos) {

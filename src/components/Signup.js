@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Form, Icon, Input } from 'antd';
+import * as userActions from '../actions/userActions';
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 const FormItem = Form.Item;
 
 class Signup extends Component {
@@ -13,20 +16,21 @@ class Signup extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit() {
-        let fullName = document.getElementById("name").value;
-        let userName = document.getElementById("email").value;
-        let password = document.getElementById("password").value;
-        if (fullName.trim().length === 0) {
+        let signupParams = {};
+        signupParams.fullName = document.getElementById("name").value;
+        signupParams.userName = document.getElementById("email").value;
+        signupParams.password = document.getElementById("password").value;
+        if (signupParams.fullName.trim().length === 0) {
             this.setState({ error: 'Name is Required' });
-        } else if (userName.trim().length === 0) {
+        } else if (signupParams.userName.trim().length === 0) {
             this.setState({ error: 'Email Address is Required' });
-        } else if (password.length === 0) {
+        } else if (signupParams.password.length === 0) {
             this.setState({ error: 'Password is Required' });
-        } else if (userName.indexOf("@") < 1 || userName.lastIndexOf(".") < userName.indexOf("@") + 2 || userName.lastIndexOf(".") + 2 >= userName.length) {
+        } else if (signupParams.userName.indexOf("@") < 1 || signupParams.userName.lastIndexOf(".") < signupParams.userName.indexOf("@") + 2 || signupParams.userName.lastIndexOf(".") + 2 >= signupParams.userName.length) {
             this.setState({ error: 'Invalid Email Address is Entered' });
         } else {
             this.setState({ error: '', showLoading: true })
-            //TO-DO
+            this.props.actions.signup(signupParams);
         }
     }
     render() {
@@ -61,4 +65,16 @@ class Signup extends Component {
     }
 }
 
-export default Signup
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(Object.assign({}, userActions), dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

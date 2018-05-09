@@ -7,6 +7,11 @@ export default function userReducer(state = initialState.user, action) {
                 ...state,
                 auth: action.token
             };
+        case types.SIGNUP_SUCCESS:
+            return {
+                ...state,
+                signup: true
+            };
         case types.GET_TODO:
             return {
                 ...state,
