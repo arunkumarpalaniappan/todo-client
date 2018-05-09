@@ -5,7 +5,10 @@ export function login(user) {
     return function(dispatch) {
         return userApi.login(user)
             .then(response => {
-                dispatch(loginSuccess(response.token))
+                if(response.token)
+                    dispatch(loginSuccess(response.token))
+                else
+                    dispatch(loginFailure())
             })
             .catch(err => {
                 throw(err);
@@ -43,6 +46,10 @@ export function loginSuccess(token) {
 
 export function signupSuccess(response) {
     return {type: types.SIGNUP_SUCCESS, response};
+}
+
+export function loginFailure() {
+    return {type: types.LOGIN_FAILED};
 }
 
 export function getTodoSuccess(todos) {

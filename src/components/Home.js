@@ -83,10 +83,7 @@ class Home extends Component {
             }
     }
     showLogin() {
-        this.setState({loginVisible: true});
-    }
-    hideLogin() {
-        this.setState({loginVisible: false});
+        this.setState({loginVisible: !this.state.loginVisible});
     }
     showSignup() {
         this.setState({signupVisible: true});
@@ -186,7 +183,8 @@ function mapStateToProps(state) {
     return {
         quote: state.quote,
         todo: state.todo,
-        filter: state.filter
+        filter: state.filter,
+        user: state.user
     };
 }
 

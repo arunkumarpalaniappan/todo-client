@@ -32,11 +32,18 @@ class Login extends Component {
     }
     componentWillReceiveProps(nextState) {
         const {onSuccess} = this.props;
-        if(nextState.user.auth) {
-            if(!!!nextState.user.todos)
+        if(nextState.user.auth) {           
+            if (!nextState.user.login) {
+                this.setState({ error: 'Invalid Email Address or Password!', showLoading: false });
+            }  
+            else if(!!!nextState.user.todos) {
+                this.setState({ error: 'Logged in successfully! Fetching available tasks...'});
                 this.props.actions.get(nextState.user.auth);
-            else
+            }          
+            else {
+                //this.setState({ error: '', showLoading: false })
                 onSuccess();
+            }                
         }
     }
     render() {
