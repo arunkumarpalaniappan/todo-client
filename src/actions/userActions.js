@@ -20,7 +20,7 @@ export function signup(user) {
     return function(dispatch) {
         return userApi.signup(user)
             .then(response => {
-                dispatch(types.SIGNUP_SUCCESS(response))
+                dispatch(signupSuccess(response))
             })
             .catch(err => {
                 throw(err);

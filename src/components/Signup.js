@@ -17,16 +17,16 @@ class Signup extends Component {
     }
     handleSubmit() {
         let signupParams = {};
-        signupParams.fullName = document.getElementById("name").value;
-        signupParams.userName = document.getElementById("email").value;
+        signupParams.name = document.getElementById("name").value;
+        signupParams.email = document.getElementById("email").value;
         signupParams.password = document.getElementById("password").value;
-        if (signupParams.fullName.trim().length === 0) {
+        if (signupParams.name.trim().length === 0) {
             this.setState({ error: 'Name is Required' });
-        } else if (signupParams.userName.trim().length === 0) {
+        } else if (signupParams.email.trim().length === 0) {
             this.setState({ error: 'Email Address is Required' });
         } else if (signupParams.password.length === 0) {
             this.setState({ error: 'Password is Required' });
-        } else if (signupParams.userName.indexOf("@") < 1 || signupParams.userName.lastIndexOf(".") < signupParams.userName.indexOf("@") + 2 || signupParams.userName.lastIndexOf(".") + 2 >= signupParams.userName.length) {
+        } else if (signupParams.email.indexOf("@") < 1 || signupParams.email.lastIndexOf(".") < signupParams.email.indexOf("@") + 2 || signupParams.email.lastIndexOf(".") + 2 >= signupParams.email.length) {
             this.setState({ error: 'Invalid Email Address is Entered' });
         } else {
             this.setState({ error: '', showLoading: true })

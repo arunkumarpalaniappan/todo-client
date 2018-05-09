@@ -83,7 +83,10 @@ class Home extends Component {
             }
     }
     showLogin() {
-        this.setState({loginVisible: !this.state.loginVisible});
+        this.setState({loginVisible: true});
+    }
+    hideLogin() {
+        this.setState({loginVisible: false});
     }
     showSignup() {
         this.setState({signupVisible: true});
